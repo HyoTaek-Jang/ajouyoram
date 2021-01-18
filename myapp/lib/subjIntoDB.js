@@ -72,5 +72,5 @@ function writeMajorList(majorList, year) {
   fs.writeFileSync(`./json_list/majorList_${year}`, majorList.toString());
 }
 
-// createTable(years);
+createTable(years);
 insertData(majors, years);
