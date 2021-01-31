@@ -55,10 +55,10 @@ var db = mysql.createConnection({
 ```
 
 ### 1월 15일
+
 - aws 서버 연결법
 - 포트를 개방해줘야함
 - 보안그룹 - 런쳐위자드 -> 인바운드 3000번 포트생성
-
 
 - 로컬노드에서 aws mysql 연결시 인증 오류 발생
 - 해결법 : aws mysql root로 접속후 스키마는 mysql로 접속
@@ -67,5 +67,41 @@ var db = mysql.createConnection({
 - flush privileges; 로 변경사항 적용
 
 ### 1월 16일
+
 - 협업이 제대로 안되고 업무 분담이 안되는 듯하여 슬랙을 제안 pm, pl을 뽑는 과정이 필요할듯
 - 슬랙구성 완료
+
+## 21년 1월 31일
+
+- 프론트와 통신 테스트!
+- post로 year major 던지면 sql 뒤져서 데이터 던져주는거!
+- 저번에도 까먹었지만 단어 포함된거 찾는 sql 구문
+
+```
+  let query = `SELECT * FROM subj_${year} WHERE major like '%${major}%'`;
+
+저기 % %로 묶으면 포함된 단어 검색해서 보여줌
+```
+
+### res.send json end
+
+```
+res.send()는 send에 전해진 argument에 따라서 Content-type이 자동적으로 만들어진다. 이게 기본이다.
+res.json()은 json이 아닌 것도 json 형식으로 바꾸어서 보내준다. 즉 content-type 헤더를 application/JSON으로 고정한다. 그런데 결국 res.json()도 마지막에 res.send()를 호출한다.
+res.end()는 보내줄 아무 데이터도 없는데 response를 끝내고 싶을 때 사용한다.
+ex) res.status(400).end();
+```
+
+### login테스트 앱에서 넘어오는 정보
+
+```
+0|www    | {
+0|www    |   userEmail: 'yu04038@ajou.ac.kr',
+0|www    |   name: '조용진',
+0|www    |   uid: 'AEWJ2xFVZFXn5APLyCI67HyOZii1',
+0|www    |   year: '2019',
+0|www    |   major: 'media'
+0|www    | }
+```
+
+## 테스트 성공!
