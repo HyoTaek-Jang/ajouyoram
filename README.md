@@ -149,10 +149,46 @@ ex) res.status(400).end();
   2. rec테이블에서 null된거 다 지움
   3. 끝
 - ㅇㅋ 잘 작동함 굿!!!!!!!!!!!!
-- 배운점 sql isnull, lastinsert, 리눅스 폴더 삭제, mysql where 두개
+- 배운점 sql isnull, lastinsert, 리눅스 폴더 삭제, mysql where 두개, join
 
 ### 21년 3월 2일
 
 - 요람 불러오려고 하는데 아 드럽게 복잡함.
 - 테이블이 세개가 엃혀있어서 흠.... 계산 할 것도 많고... 어케 넘겨줘야할지...
 - 일단 join을 써서 select해야할듯
+- join해서 해결함!
+- 예아!!! get sbjt 기능 구현함
+
+```javascript
+const sortSbjt = {
+  totalCredit: 0,
+  totalGrade: 0,
+  majorR: 0,
+  majorS: 0,
+  univR: 0,
+  basicR: 0,
+};
+
+for (let i of comSbjtData) {
+  sortSbjt.totalCredit += i.comSbjt_credit;
+  sortSbjt.totalGrade += i.comSbjt_grade;
+  sortSbjt[`${i.recSbjt_recCategory}`] += i.comSbjt_credit;
+
+  if (!(i.comSbjt_date in sortSbjt)) {
+    sortSbjt[`${i.comSbjt_date}`] = {
+      totalCredit: 0,
+      totalGrade: 0,
+      majorR: [],
+      majorS: [],
+      univR: [],
+      basicR: [],
+    };
+  }
+  sortSbjt[`${i.comSbjt_date}`].totalCredit += i.comSbjt_credit;
+  sortSbjt[`${i.comSbjt_date}`].totalGrade += i.comSbjt_grade;
+  //prettier-ignore
+  sortSbjt[`${i.comSbjt_date}`][`${i.recSbjt_recCategory}`].push(i.comSbjt_name);
+}
+```
+
+- 이런식으로 일단 객체를 만들고 만약에 키가 없다면 키랑 벨류를 초기화해주고 값을 담았음
