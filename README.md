@@ -192,3 +192,31 @@ for (let i of comSbjtData) {
 ```
 
 - 이런식으로 일단 객체를 만들고 만약에 키가 없다면 키랑 벨류를 초기화해주고 값을 담았음
+
+### 21년 3월 4일
+
+- 학기별 데이터를 뽑아주는걸 했다!
+- 맨 처음에는 조인까지해서 한번에 하려고 했는데 그러면 insert할때랑 데이터 형식이 달라짐
+- 음 인정과목이 두개면 그냥 통 sbjt가 두개 생겨서!
+- 쿼리를 두번써서 인정과목에 리스트가 또 생기게 처리함
+- 그래서 for문으로 쿼리를 돌렸는데 쿼리를 안기다리고 바로 리졸브해서, await 걸어줌! 저번에 아주수강할때 타이머 건 느낌!
+
+```javascript
+  static getRecSbjtDate(dateSbjtData) {
+    return new Promise(async (resolve, reject) => {
+      for (let i of dateSbjtData) {
+        i.recognitionSbjt = await this.processRecSbjt(i.comSbjt_id);
+      }
+      resolve(dateSbjtData);
+    });
+  }
+
+  static processRecSbjt(comSbjt_id) {
+    return new Promise((resolve, reject) => {
+      db.query(selectSbjtRecQuery, [comSbjt_id], (err, data) => {
+        if (err) reject(err);
+        resolve(data);
+      });
+    });
+  }
+```
